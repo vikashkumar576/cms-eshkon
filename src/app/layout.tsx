@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ReduxProvider } from "@/store/ReduxProvider";
 import { AuthProvider } from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 /**
  * Global Metadata
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
  * It handles:
  * 1. Global CSS imports (`globals.css`)
  * 2. Font configuration (via `inter` class in body)
- * 3. Global providers (AuthProvider, ReduxProvider)
+ * 3. Global providers (AuthProvider, ReduxProvider, ThemeProvider)
  * 4. HTML/Body structure
  * 
  * @param children - The page content to render
@@ -32,9 +33,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
-        <AuthProvider>
-          <ReduxProvider>{children}</ReduxProvider>
-        </AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <ReduxProvider>{children}</ReduxProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

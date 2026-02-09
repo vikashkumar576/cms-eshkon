@@ -1,14 +1,24 @@
 import { createClient, type Entry, type EntrySkeletonType } from "contentful";
 import { PageSchema, type Page, type FeatureItem } from "@/lib/schemas";
 
+const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
+const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
+const previewToken = process.env.NEXT_PUBLIC_CONTENTFUL_PREVIEW_TOKEN;
+
+if (!space || !accessToken) {
+    if (process.env.NODE_ENV === 'production') {
+        console.error("Contentful environment variables are missing!");
+    }
+}
+
 const client = createClient({
-    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || "",
-    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || "",
+    space: space || "MISSING_SPACE_ID",
+    accessToken: accessToken || "MISSING_ACCESS_TOKEN",
 });
 
 const previewClient = createClient({
-    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || "",
-    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_PREVIEW_TOKEN || "",
+    space: space || "MISSING_SPACE_ID",
+    accessToken: previewToken || "MISSING_PREVIEW_TOKEN",
     host: "preview.contentful.com",
 });
 
